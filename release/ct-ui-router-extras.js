@@ -234,8 +234,8 @@ angular.module('ct.ui.router.extras.dsr').service("$deepStateRedirect", [ '$root
       dsrCfg = angular.extend(dsrCfg, declaration);
     }
 
-    if (angular.isString(dsrCfg.default)) {
-      dsrCfg.default = { state: dsrCfg.default };
+    if (angular.isString(dsrCfg['default'])) {
+      dsrCfg['default'] = { state: dsrCfg['default'] };
     }
 
     if (!dsrCfg.fn) {
@@ -285,11 +285,11 @@ angular.module('ct.ui.router.extras.dsr').service("$deepStateRedirect", [ '$root
 
   $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
     var cfg = getConfig(toState);
-    if (ignoreDsr || (computeDeepStateStatus(toState) !== REDIRECT) && !cfg.default) return;
+    if (ignoreDsr || (computeDeepStateStatus(toState) !== REDIRECT) && !cfg['default']) return;
     // We're changing directly to one of the redirect (tab) states.
     // Get the DSR key for this state by calculating the DSRParams option
     var key = getParamsString(toParams, cfg.params);
-    var redirect = lastSubstate[toState.name][key] || cfg.default;
+    var redirect = lastSubstate[toState.name][key] || cfg['default'];
     if (!redirect) return;
 
     // we have a last substate recorded
@@ -1490,7 +1490,7 @@ angular.module('ct.ui.router.extras.previous', [ 'ct.ui.router.extras.core', 'ct
           previous = $transition$.from;
         }
 
-        $transition$.promise.then(commit).catch(revert);
+        $transition$.promise.then(commit)['catch'](revert);
         function commit() { lastPrevious = null; }
         function revert() { previous = lastPrevious; }
       });
